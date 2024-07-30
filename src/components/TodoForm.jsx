@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AddTaskBtn from "../assets/utils/AddTaskButton";
 
+import { ThemeContext } from "../assets/utils/ThemeContext";
+import "../styles/Theme.css";
+
 const TodoForm = ({ addTask }) => {
+  const { theme } = useContext(ThemeContext);
+
   const [task, setTask] = useState("");
   const [isValidTask, setIsValidTask] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -38,7 +43,9 @@ const TodoForm = ({ addTask }) => {
       <div className="flex flex-col md:flex-row p-2 md:p-0 gap-5 w-full items-center justify-center">
         <span className="flex items-center justify-between gap-2 px-4 py-1 border-2 border-customPurple rounded-md w-full sm:max-w-[600px]">
           <input
-            className="rounded-lg w-full outline-none bg-customWhite p-1.5"
+            className={`rounded-lg w-full outline-none p-1.5 bg-transparent ${
+              theme === "light" ? "text-black" : "text-white"
+            }`}
             placeholder="Enter a new task..."
             type="text"
             value={task}

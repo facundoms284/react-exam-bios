@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { ThemeContext } from "../assets/utils/ThemeContext";
 
 import DeleteHover from "../assets/icons/DeleteHover.svg";
 import Delete from "../assets/icons/Delete.svg";
@@ -17,6 +18,8 @@ import "../styles/Animation.css";
 import "../styles/Spinner.css";
 
 const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
+  const { theme } = useContext(ThemeContext);
+
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(null); // Index of the task being edited or deleted with the modal open.
@@ -101,7 +104,7 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
       ) : (
         <TransitionGroup
           component="ul"
-          className="flex flex-col items-center justify-center w-full max-w-lg p-5 sm:p-0"
+          className="flex flex-col items-center justify-center w-full max-w-lg gap-5 p-5 sm:p-0"
         >
           {filteredTasks.map((task, index) => (
             <CSSTransition
@@ -112,8 +115,14 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
             >
               <li
                 key={index}
-                className={`flex w-full border-b-2 justify-between mb-5 ${
-                  task.isCompleted ? "bg-gray-100" : ""
+                className={`flex w-full max-w-full border-b justify-between ${
+                  theme === "light" ? "border-gray-200" : "border-customPurple"
+                }${
+                  task.isCompleted
+                    ? theme === "light"
+                      ? "bg-gray-200 border-gray-200"
+                      : "bg-transparent border-customPurple"
+                    : ""
                 }`}
               >
                 <div className="flex items-center flex-1">
@@ -123,9 +132,21 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
                   />
                   <div className="flex-1 ml-2">
                     <label
-                      className={`font-bold text-xl block ${
-                        task.isCompleted ? "line-through text-gray-500" : ""
-                      }`}
+                      className={`font-bold text-xl  break-words ${
+                        task.isCompleted
+                          ? theme === "light"
+                            ? "line-through text-gray-500"
+                            : "line-through text-white"
+                          : ""
+                      } ${
+                        theme === "light"
+                          ? "text-dark-gray"
+                          : "text-customWhite"
+                      } break-words w-full `}
+                      style={{
+                        wordBreak: "break-word",
+                        overflowWrap: "break-word",
+                      }}
                     >
                       {task.text}
                     </label>
