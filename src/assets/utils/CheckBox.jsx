@@ -9,9 +9,6 @@ const CustomCheckbox = styled(Checkbox)({
     fontSize: 32,
     color: customPurple,
   },
-  "&.Mui-checked": {
-    color: customPurple,
-  },
 });
 
 const MyCheckbox = ({ checked, onChange }) => {

@@ -9,12 +9,10 @@ const Header = () => {
   return (
     <header
       className={`text-3xl font-bold mb-6 ${
-        theme === "light" ? "text-dark-gray" : "text-white"
+        theme === "light" ? "text-customGray" : "text-customWhite"
       }`}
     >
-      <h1 className="text-3xl font-bold text-customBlack mb-6">
-        {TitleComponent}
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">{TitleComponent}</h1>
     </header>
   );
 };

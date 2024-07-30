@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { ThemeContext } from "../assets/utils/ThemeContext";
 
+// Components
 import Header from "../components/Header";
 import TodoList from "../components/TodoList";
-import FloatingButton from "../assets/utils/FAB";
 
-import "../styles/Theme.css";
+// Floating button
+import FloatingButton from "../assets/utils/FAB";
 
 const Home = ({ tasks, deleteTask, editTask, updateTaskStatus }) => {
   const { theme } = useContext(ThemeContext);
@@ -24,7 +25,7 @@ const Home = ({ tasks, deleteTask, editTask, updateTaskStatus }) => {
           editTask={editTask}
           updateTaskStatus={updateTaskStatus}
         />
-        <FloatingButton className="fixed right-10 bottom-5 sm:bottom-16 sm:right-72" />
+        <FloatingButton className="fixed right-10 bottom-5 sm:right-20 sm:bottom-10" />
       </div>
     </div>
   );

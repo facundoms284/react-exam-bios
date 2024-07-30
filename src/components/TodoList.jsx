@@ -1,19 +1,28 @@
 import { useState, useEffect, useContext } from "react";
+
+// Transition
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+// Context
 import { ThemeContext } from "../assets/utils/ThemeContext";
 
+// Icons
 import DeleteHover from "../assets/icons/DeleteHover.svg";
 import Delete from "../assets/icons/Delete.svg";
 import Edit from "../assets/icons/Edit.svg";
 import EditHover from "../assets/icons/EditHover.svg";
 
-import NoTaskFoundImg from "../assets/images/NoTaskFound.png";
+// Images
+import NoTaskFoundLightImg from "../assets/images/NoTaskFoundLight.png";
+import NoTaskFoundDarkImg from "../assets/images/NoTaskFoundDark.png";
 
+// Utils
 import MyCheckbox from "../assets/utils/CheckBox";
 import IconWithHover from "../assets/utils/IconWithHover";
-import SearchBar from "../assets/utils/SearchBar";
+import ActionBar from "../assets/utils/ActionBar";
 import Modal from "../assets/utils/Modal";
 
+// Styles CSS
 import "../styles/Animation.css";
 import "../styles/Spinner.css";
 
@@ -31,7 +40,7 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
 
   // Search and filter states
   const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
 
   useEffect(() => {
     setLoading(false);
@@ -50,9 +59,9 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
       .toLowerCase()
       .includes(searchText.toLowerCase());
     const statusMatch =
-      statusFilter === "" ||
-      (statusFilter === "completed" && task.isCompleted) ||
-      (statusFilter === "uncompleted" && !task.isCompleted);
+      statusFilter === "ALL" ||
+      (statusFilter === "COMPLETED" && task.isCompleted) ||
+      (statusFilter === "UNCOMPLETED" && !task.isCompleted);
     return textMatch && statusMatch;
   });
 
@@ -67,7 +76,7 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
   const openModal = (index, editMode) => {
     setCurrentTaskIndex(index);
     setIsEditMode(editMode);
-    setNewTaskText(tasks[index].text);
+    setNewTaskText(filteredTasks[index].text);
     setIsModalOpen(true);
   };
 
@@ -79,27 +88,36 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
 
   const saveChanges = () => {
     if (currentTaskIndex !== null && newTaskText.trim()) {
-      editTask(currentTaskIndex, newTaskText);
+      editTask(filteredTasks[currentTaskIndex].id, newTaskText);
       closeModal();
     }
   };
 
   const handleDelete = () => {
     if (currentTaskIndex !== null) {
-      deleteTask(currentTaskIndex);
+      deleteTask(filteredTasks[currentTaskIndex].id);
       closeModal();
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <SearchBar onSearch={setSearchText} onFilter={setStatusFilter} />
+      <ActionBar onSearch={setSearchText} onFilter={setStatusFilter} />
       {filteredTasks.length === 0 ? (
         <div className="mt-15 flex flex-col items-center justify-center w-full gap-5">
           <figure>
-            <img src={NoTaskFoundImg} alt="No task found" />
+            <img
+              src={theme === "light" ? NoTaskFoundLightImg : NoTaskFoundDarkImg}
+              alt="No task found"
+            />
           </figure>
-          <p className="text-center text-xl font-bold">Empty...</p>
+          <p
+            className={`text-center text-xl font-bold ${
+              theme === "light" ? "text-customGray" : "text-customWhite"
+            }`}
+          >
+            Empty...
+          </p>
         </div>
       ) : (
         <TransitionGroup
@@ -108,7 +126,7 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
         >
           {filteredTasks.map((task, index) => (
             <CSSTransition
-              key={index}
+              key={task.id}
               timeout={700}
               classNames="fade"
               unmountOnExit
@@ -135,8 +153,8 @@ const TodoList = ({ tasks, updateTaskStatus, deleteTask, editTask }) => {
                       className={`font-bold text-xl  break-words ${
                         task.isCompleted
                           ? theme === "light"
-                            ? "line-through text-gray-500"
-                            : "line-through text-white"
+                            ? "line-through text-gray-400"
+                            : "line-through text-gray-400"
                           : ""
                       } ${
                         theme === "light"

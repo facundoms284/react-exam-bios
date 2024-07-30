@@ -4,7 +4,6 @@ import Header from "../components/Header";
 
 import { useContext } from "react";
 import { ThemeContext } from "../assets/utils/ThemeContext";
-import "../styles/Theme.css";
 
 const ToDoDetails = ({ addTask }) => {
   const { theme } = useContext(ThemeContext);

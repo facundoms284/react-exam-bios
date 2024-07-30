@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
+
 import Fab from "@mui/material/Fab";
+
+// Icons
 import AddIcon from "@mui/icons-material/Add";
 import HomeIcon from "@mui/icons-material/Home";
 
-const customPurple = "#6C63FF";
+const customPurple = "#6c63ff";
 
 const CustomFab = styled(Fab)({
   backgroundColor: customPurple,

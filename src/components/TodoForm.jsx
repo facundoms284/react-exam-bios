@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AddTaskBtn from "../assets/utils/AddTaskButton";
 
+// Componente utils
+import AddTaskBtn from "../assets/utils/AddTaskButton";
 import { ThemeContext } from "../assets/utils/ThemeContext";
-import "../styles/Theme.css";
 
 const TodoForm = ({ addTask }) => {
   const { theme } = useContext(ThemeContext);
@@ -41,10 +41,14 @@ const TodoForm = ({ addTask }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-4xl ">
       <div className="flex flex-col md:flex-row p-2 md:p-0 gap-5 w-full items-center justify-center">
-        <span className="flex items-center justify-between gap-2 px-4 py-1 border-2 border-customPurple rounded-md w-full sm:max-w-[600px]">
+        <span
+          className={` ${
+            theme === "light" ? "border-customPurple" : "border-customWhite"
+          } rounded-lg h-12 flex items-center justify-between gap-2 p-3 border w-full sm:max-w-[600px]`}
+        >
           <input
             className={`rounded-lg w-full outline-none p-1.5 bg-transparent ${
-              theme === "light" ? "text-black" : "text-white"
+              theme === "light" ? "text-customGray" : "text-customWhite"
             }`}
             placeholder="Enter a new task..."
             type="text"
@@ -54,7 +58,7 @@ const TodoForm = ({ addTask }) => {
         </span>
         <AddTaskBtn onClick={handleAddTaskBtn}>ADD A TASK</AddTaskBtn>
       </div>
-      {showError && <p className="text-red-500 mt-3">Task cannot be empty</p>}
+      {showError && <p className="text-customRed mt-3">Task cannot be empty</p>}
     </div>
   );
 };

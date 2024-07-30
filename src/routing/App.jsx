@@ -27,21 +27,21 @@ function App() {
   };
 
   const addTask = (text) => {
-    const newTask = { text, isCompleted: false };
+    const newTask = { id: Date.now(), text, isCompleted: false };
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
   };
 
-  const deleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
+  const deleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
 
-  const editTask = (index, newText) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].text = newText;
+  const editTask = (id, newText) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, text: newText } : task
+    );
     setTasks(updatedTasks);
   };
 

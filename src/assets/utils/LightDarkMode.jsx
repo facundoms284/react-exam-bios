@@ -8,12 +8,12 @@ const LightDarkMode = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div className="rounded-md py-[9.5px] px-3 outline-none bg-customPurple text-white hover:bg-[#5a50e6] flex-shrink-0">
+    <div className="rounded-lg p-2 outline-none bg-customPurple text-customWhite hover:bg-[#5a50e6] flex-shrink-0 w-12 h-12 cursor-pointer flex items-center justify-center">
       <img
         title="Toggle theme"
-        className="h-6 w-6 cursor-pointer"
-        src={theme === "light" ? LightModeIcon : DarkModeIcon}
-        alt="A toggle icon"
+        className="h-6 w-6"
+        src={theme === "light" ? DarkModeIcon : LightModeIcon}
+        alt="A light or dark mode icon"
         onClick={toggleTheme}
       />
     </div>

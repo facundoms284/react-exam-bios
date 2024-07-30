@@ -1,13 +1,15 @@
 import { useState, useContext } from "react";
-import { ThemeContext } from "../utils/ThemeContext";
+import { ThemeContext } from "./ThemeContext";
 
-import LightDarkMode from "../utils/LightDarkMode";
+// Componente utils
+import LightDarkMode from "./LightDarkMode";
+import CustomSelectComponent from "./CustomSelectComponent";
 
 // Icon
 import SearchIcon from "../icons/Search.svg";
 import SearchDarkMode from "../icons/SearchDarkMode.svg";
 
-const SearchBar = ({ onSearch, onFilter }) => {
+const ActionBar = ({ onSearch, onFilter }) => {
   const { theme } = useContext(ThemeContext);
 
   const [searchText, setSearchText] = useState("");
@@ -19,7 +21,6 @@ const SearchBar = ({ onSearch, onFilter }) => {
   };
 
   const handleFilterChange = (e) => {
-    console.log(`Filter changed: ${e.target.value}`);
     setSelectedFilter(e.target.value);
     onFilter(e.target.value);
   };
@@ -29,16 +30,15 @@ const SearchBar = ({ onSearch, onFilter }) => {
       <span
         className={`${
           theme === "light" ? "border-customPurple" : "border-customWhite"
-        } flex items-center justify-between gap-2 px-4 py-1 border
-      rounded-md w-full sm:max-w-[600px]`}
+        } rounded-lg h-12 flex items-center justify-between gap-2 p-2 border w-full sm:max-w-[600px]`}
       >
         <input
           placeholder="Search a task..."
           type="text"
           value={searchText}
           onChange={handleSearchChange}
-          className={`rounded-lg p-1.5 w-full outline-none bg-transparent ${
-            theme === "light" ? "text-black" : "text-white"
+          className={` w-full outline-none bg-transparent ${
+            theme === "light" ? "text-customPurple" : "text-customWhite"
           }`}
         />
         <img
@@ -48,21 +48,15 @@ const SearchBar = ({ onSearch, onFilter }) => {
           alt="A search icon"
         />
       </span>
-      <div className="flex gap-2 items-center sm:flex-row">
-        <select
-          title="Filter by status"
-          value={selectedFilter}
-          onChange={handleFilterChange}
-          className="rounded-md py-[10px] px-2.5 w-full sm:w-auto max-w-xs outline-none bg-customPurple text-white hover:bg-[#5a50e6]"
-        >
-          <option value="">ALL</option>
-          <option value="completed">COMPLETED</option>
-          <option value="uncompleted">UNCOMPLETED</option>
-        </select>
+      <div className="flex gap-2 items-center justify-center sm:flex-row">
+        <CustomSelectComponent
+          selectedFilter={selectedFilter}
+          handleFilterChange={handleFilterChange}
+        />
         <LightDarkMode />
       </div>
     </div>
   );
 };
 
-export default SearchBar;
+export default ActionBar;
